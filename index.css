@@ -1,0 +1,180 @@
+:root{
+    --primary-color: rgb(70, 0, 128);
+    --secondary-color: rgb(151, 131, 168);
+    --blank-cell-collor: #777;
+    --passed-cell-collor: #777;
+    --active-cell-collor: #777;
+    --bomb-cell-collor: #777;
+    --gift-cell-collor: #777;
+    --wall-cell-collor: #777;
+    --target-cell-collor: #777;
+    --cell-size: 52px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    
+}
+
+body{
+    background-color: rgb(54, 0, 98);
+}
+
+
+html, body {margin: 0; height: 100%; overflow: hidden}
+
+
+
+#header{
+    text-align: center;
+    color: white;
+    padding: 8px 0;
+    font-size: 10px;
+}
+
+#game{
+    max-width: 400px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    margin: auto;
+    padding:10px 20px;
+}
+
+#result{
+    background-color: rgba(255, 0, 0, 0.3);
+    width: 300px;
+    padding: 20px 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 190px;
+    text-align: center;
+    border-radius: 15px;
+    z-index: 1;
+    color: white;
+    display: none;
+}
+
+#board{
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.row{
+    display: flex;
+}
+.cell{
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border-radius: 3px;
+}
+.active{
+    background-image: url("robo.png");
+    background-size: 100%;
+    background-color: rgb(154, 102, 166)
+}
+.passed{
+    background-color: rgb(154, 102, 166)
+}
+.wall{
+    background-image: url("wall.png");
+    background-size: 100%;
+}
+.gift{
+    background-image: url("gift.png");
+    background-size: 100%;
+    background-color: rgb(141, 116, 161);
+}
+.gameover{
+    background-color: red;
+}
+
+
+#display-comands{
+    min-height: 116px;
+    min-width: 200px;
+    border: 2px dotted white;
+}
+#display-comands i{
+    color: rgb(225, 255, 0);
+}
+
+.executing{
+    border-bottom: 3px solid rgb(225, 255, 0);
+}
+
+#giftStatusContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFF;
+    color: yellow;
+    margin-bottom: 5px;
+}
+#giftStatusContainer div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#controllerOfTasks{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFF;
+}
+#controllerOfTasks button{
+    width: 50px;
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+#controllerOfTasks button i{
+    font-size: 32px;
+}
+
+#controllers #comand-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+#controllers #comand-buttons button{
+    width: 70px;
+    height: 70px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+}
+#controllers #comand-buttons button i{
+    color: #333;
+    font-weight: bold;
+}
+#controllers #play-restart-button{
+    margin: 10px 0 30px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#controllers #play-restart-button button{
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+}
+
+#controllers #play-restart-button #play{
+    background-color: green;
+    color: white;
+}
+
+
+#controllers #play-restart-button #restart{
+    background-color: yellow;
+}
