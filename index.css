@@ -130,12 +130,20 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     justify-content: space-between;
     align-items: center;
     color: #FFF;
+    margin: 7px auto;
 }
 #controllerOfTasks button{
     width: 50px;
     background-color: transparent;
     border: none;
     color: white;
+}
+#controllerOfTasks #currentTaskGameIndexBox{
+    padding: 10px;
+    border-radius: 10px;
+}
+.fasePassed{
+    background-color: rgb(59, 0, 108);
 }
 #controllerOfTasks button i{
     font-size: 32px;
