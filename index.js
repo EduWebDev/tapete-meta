@@ -10,8 +10,9 @@ let executingCommand = -1
 
 const cells = []
 
-const tasks = [
-    {walls: [16,17,18,23,24,25,30,31,32], gifts: [6,42,48], done: false},
+let tasks = [
+    {walls: [], gifts: [], done: false},
+    {walls: [16,17,18,23,24,25,30,31,32], gifts: [6, 42, 48], done: false},
     {walls: [11,36,37,38], gifts: [5,10,30,33], done: false},
     {walls: [10,17,19,24,31], gifts: [9,22,33,39], done: false},
     {walls: [9,10,11,16,17,18,31,38,45], gifts: [29,33], done: false},
@@ -25,11 +26,46 @@ const tasks = [
 init()
 
 function init(){
+    tasks = JSON.parse(localStorage.getItem("status")) || tasks
+    currentTaskGameIndex = +localStorage.getItem("currentFase")
+
     buldBoard()
     fillCells()
+    
     renderClearGame()
     renderMakeGame()
+    
 }
+
+function reset() {
+    const out = confirm("Deseja sair do jogo?")
+    if (out) {
+        localStorage.removeItem("status")
+        localStorage.removeItem("currentFase")
+        tasks.forEach((task)=>{
+            task.done = false
+        })
+        currentTaskGameIndex = 0
+        restartGame()
+    }
+}
+
+
+function nextTaksGame(arg) {
+    if(arg==="next"){
+        if(currentTaskGameIndex < tasksGame.walls.length-1){
+            currentTaskGameIndex++
+            restartGame()
+        }
+    }
+    if(arg==="previous"){
+        if(currentTaskGameIndex > 0){
+            currentTaskGameIndex--
+            restartGame()
+        }
+    }
+}
+
 function buldBoard() {
     const boardElement = document.querySelector("#game #board")
     boardElement.innerHTML = ""
@@ -62,6 +98,7 @@ function restartGame(){
     resetDataGameTask()
     renderClearGame()
     renderMakeGame()
+
 }
 function nextTaskGame(){
     if (currentTaskGameIndex < tasks.length  - 1 & tasks[currentTaskGameIndex].done) {
@@ -87,8 +124,11 @@ function renderClearGame(){
     
     document.querySelectorAll(".cell").forEach((cell)=>{
         cell.style.transform = "rotate(0deg)"
-        cell.classList.remove("gameover", "gift", "wall", "active")
+        cell.classList.remove("gameover", "gift", "wall", "active", "passed")
     })
+
+    activeCell = document.querySelectorAll(".cell")[currentPosition]
+    activeCell.classList.add("passed")
 }
 
 function renderMakeGame() {
@@ -96,6 +136,7 @@ function renderMakeGame() {
     tasks[currentTaskGameIndex].walls.forEach((wall)=>{
         cellsElements[wall].classList.add("wall")
     })
+
     tasks[currentTaskGameIndex].gifts.forEach((wall)=>{
         cellsElements[wall].classList.add("gift")
     })
@@ -133,6 +174,7 @@ function playGame() {
     console.log("play");
     let i = 0
     myInterval = setInterval(()=>{
+        nextCommand()
         switch (comands[i]) {
             case "forward":
                 moveFoWard()
@@ -151,6 +193,7 @@ function playGame() {
         }
 
         i++
+        console.log(i, comands.length);
         if(i>=comands.length){
             clearInterval(myInterval)
             if(gameStatus !== "gameover"){
@@ -173,6 +216,7 @@ function showResult() {
         return
     }
     if(gameStatus === "completed"){
+        console.log(gameStatus);
         if (giftsCatched===tasks[currentTaskGameIndex].gifts.length){
             document.querySelector("#result").innerHTML = "DESAFIO REALIZADO COM SUCESSO"
             document.querySelector("#result").style.display = "block"
@@ -181,7 +225,10 @@ function showResult() {
 
             const fasePassed = document.querySelector("#currentTaskGameIndexBox")
             tasks[currentTaskGameIndex].done ? fasePassed.classList.add("fasePassed") : fasePassed.classList.add()
+            localStorage.setItem("currentFase", currentTaskGameIndex+1)
             console.log("Winner")
+
+            localStorage.setItem("status", JSON.stringify(tasks))
         }else{
             document.querySelector("#result").innerHTML = "Tente novamente pegar todos os presentes"
             document.querySelector("#result").style.display = "block"
@@ -223,6 +270,18 @@ function catchGift() {
         document.querySelector("#giftsCatched").innerHTML = giftsCatched + "/" + tasks[currentTaskGameIndex].gifts.length
     }
 }
+
+function nextCommand() {
+    let commandDisplayed
+    if(executingCommand >= 0){
+        commandDisplayed = document.querySelectorAll(".commandDisplayed")[executingCommand]
+        commandDisplayed.classList.remove("executing")
+    }
+    executingCommand++
+    commandDisplayed = document.querySelectorAll(".commandDisplayed")[executingCommand]
+    commandDisplayed.classList.add("executing")
+}
+
 function move(param) {
     if (param===null || tasks[currentTaskGameIndex].walls.some((wall) => {return wall === param})){
         gameStatus = "gameover"
@@ -233,6 +292,7 @@ function move(param) {
         activeCell.classList.remove("active")
         currentPosition = param
         catchGift()
+        activeCell.classList.add("passed")
         activeCell.classList.add("active")
         updateOrientation()
     }

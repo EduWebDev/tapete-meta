@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Tapete Robótico 5.0</title>
+    <title>Tapete Robótico 6.0</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 <body>
     <div id="header">
-        <h1>Tapete Robótico <span id="meta">META</span> v5.0</h1>
+        <h1>Tapete Robótico <span id="meta">META</span> v6.0</h1>
     </div>
     <div id="game">
         <div id="result">INICIADO</div>
         <div id="giftStatusContainer">
-            <input id="gameMode" onChange=handleGameMode() checked type="checkbox" disabled style="">
+            <div>
+                <span onclick="reset()" id="reset"><i class="material-icons">rotate_left</i></span>
+            </div>
             <div>
                 <span id="giftsCatched">(1/3 gifts)</span><i class="material-icons">card_giftcard</i>
             </div>
